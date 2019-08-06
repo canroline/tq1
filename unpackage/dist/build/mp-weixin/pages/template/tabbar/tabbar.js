@@ -1,0 +1,1 @@
+(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["pages/template/tabbar/tabbar"],[],[["b9c1","common/runtime","common/vendor"]]]);
