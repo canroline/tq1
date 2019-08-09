@@ -79,26 +79,53 @@
 				
 			},
 			GoScan() {
-				uni.navigateTo({
-					url: '/pages/component/audio/goodDetail/goodDetail'  
-				})
+				
 				// uni.navigateTo({
-				// 	url: '/pages/component/' + e + '/' + e
+				// 	url: '/pages/component/audio/goodDetail/goodDetail?goodInfo=' + 123 + '&modelInfo=' + 456 
 				// })
-				uni.request({
-					url: 'http://tqlovewh66.hicp.net/gs_h5/pay/queryGoodsInfos?goods_no=P2019080320125301',//http://tqshopbest.cn/gs_h5/pay/queryGoodsInfos', 
-					// data: {
-					// 	goods_no: 'P2019080320125301'
-					// },
-					// method:"POST",
-					// header: {
-					// 	'content-type': 'application/x-www-form-urlencoded', 
-					// },
-					success: (res) => {
-						console.log(res.data);
-						// this.text = 'request success';
+				// return 
+				
+				// 允许从相机和相册扫码
+				uni.scanCode({
+					success: function (res) {
+						console.log('条码类型：' + res.scanType);
+						console.log('条码内容：' + res.result);
+						let goods_no = res.result
+						if(!goods_no){
+							uni.showToast({ title: '请检查二维码是否正确！', icon:'none', duration: 2000 });
+							return 
+						}
+						
+						console.log('goods_no：' + goods_no );
+						
+						uni.request({
+							url: 'https://feiwuar.goho.co/pay/queryGoodsInfos',
+							data: {
+								goods_no: goods_no
+							},
+							method:"GET",
+							header: {
+								'content-type': 'application/x-www-form-urlencoded', 
+							},
+							success: (res) => {
+								console.log("queryGoodsInfos=", res.data);
+								if( res.data.code=="0000" ){
+									var goodInfo = encodeURIComponent( JSON.stringify(res.data.goodinfo) )
+									var modelInfo= encodeURIComponent( JSON.stringify(res.data.modelList) )
+									uni.navigateTo({
+										url: '/pages/component/audio/goodDetail/goodDetail?goodInfo=' + goodInfo + '&modelInfo=' + modelInfo 
+									})
+								} else {
+									uni.showToast({ title: '获取商品信息失败！', icon:'none', duration: 2000 });
+								}
+							}
+						});
+						
 					}
 				});
+		
+				
+				
 			},
 			 takePhoto() {
 				const ctx = uni.createCameraContext();

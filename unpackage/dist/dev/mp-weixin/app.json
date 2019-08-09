@@ -131,6 +131,5 @@
     "page-head": "/components/page-head",
     "page-foot": "/components/page-foot",
     "u-link": "/components/uLink"
-  },
-  "sitemapLocation": "sitemap93.json"
+  }
 }

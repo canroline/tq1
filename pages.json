@@ -2,7 +2,7 @@
 	"pages": [
 		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/tabBar/component/component",
+			"path": "pages/tabBar/component/component", // pages/component/audio/goodDetail/goodDetail
 			"style": {
 				"navigationBarTitleText": "AR资源仿真平台",
 				"app-plus": {
