@@ -5,17 +5,23 @@
 			"path": "pages/tabBar/component/component", // pages/component/audio/goodDetail/goodDetail
 			"style": {
 				"navigationBarTitleText": "AR资源仿真平台",
-				"app-plus": {
-					"bounce": "vertical",
-					"titleNView": {
-						"buttons": [{
-							"text": "\ue534",
-							"fontSrc": "/static/uni.ttf",
-							"fontSize": "22px",
-							"color": "#999999"
-						}]
-					}
-				}
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"backgroundColor":"#EFEFF3"
+				// "titleNView":{
+				// 	"border-bottom": "1px solid #f5f5f5",
+				// 	"font-size": "18px"
+				// }
+				// "app-plus": {
+				// 	"bounce": "vertical",
+				// 	"titleNView": {
+				// 		"buttons": [{
+				// 			"text": "\ue534",
+				// 			"fontSrc": "/static/uni.ttf",
+				// 			"fontSize": "22px",
+				// 			"color": "#999999"
+				// 		}]
+				// 	}
+				// }
 			}
 		},
 		{
@@ -129,7 +135,13 @@
 				"navigationBarTitleText": "问题反馈"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/component/audio/shopBag/PayPage/PayPage",
+            "style" : {
+				"navigationBarTitleText": "支付详情"
+			}
+        }
+    ],
 	"subPackages": [{
 			"root": "pages/extUI",
 			"pages": [{
@@ -917,8 +929,8 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "Hello uniapp",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#EFEFF3",
 		"backgroundColorTop": "#F4F5F6",
 		"backgroundColorBottom": "#F4F5F6",
 		"mp-alipay": {

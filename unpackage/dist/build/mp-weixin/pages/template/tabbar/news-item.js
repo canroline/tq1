@@ -3,7 +3,7 @@
     'pages/template/tabbar/news-item-create-component',
     {
         'pages/template/tabbar/news-item-create-component':(function(module, exports, __webpack_require__){
-            __webpack_require__('543d')['createComponent'](__webpack_require__("e9a1"))
+            __webpack_require__('543d')['createComponent'](__webpack_require__("83af"))
         })
     },
     [['pages/template/tabbar/news-item-create-component']]

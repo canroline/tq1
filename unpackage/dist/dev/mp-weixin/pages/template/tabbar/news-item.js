@@ -4,7 +4,7 @@
     'pages/template/tabbar/news-item-create-component',
     {
         'pages/template/tabbar/news-item-create-component':(function(module, exports, __webpack_require__){
-            __webpack_require__('1')['createComponent'](__webpack_require__(967))
+            __webpack_require__('1')['createComponent'](__webpack_require__(981))
         })
     },
     [['pages/template/tabbar/news-item-create-component']]

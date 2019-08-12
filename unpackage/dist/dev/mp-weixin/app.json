@@ -6,7 +6,8 @@
     "pages/tabBar/extUI/extUI",
     "pages/component/audio/audio",
     "pages/component/audio/shopBag/shopBag",
-    "pages/component/audio/goodDetail/goodDetail"
+    "pages/component/audio/goodDetail/goodDetail",
+    "pages/component/audio/shopBag/PayPage/PayPage"
   ],
   "subPackages": [
     {
@@ -117,8 +118,8 @@
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "Hello uniapp",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#EFEFF3",
     "backgroundColorTop": "#F4F5F6",
     "backgroundColorBottom": "#F4F5F6"
   },
@@ -131,5 +132,6 @@
     "page-head": "/components/page-head",
     "page-foot": "/components/page-foot",
     "u-link": "/components/uLink"
-  }
+  },
+  "sitemapLocation": "sitemap9.json"
 }

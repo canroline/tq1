@@ -2,16 +2,21 @@
 	<!-- <view> -->
 		<!-- <page-head title="智能商超"></page-head> -->
 		<view class="uni-flex uni-column" 
-			style="height: 100%; justify-content: center;align-items: center;">
+			style="height: 100%; background: #FFFFFF; 
+			justify-content: flex-end;align-items: center;">
+			<image src="/static/scanbg.png" 
+				style="position: absolute;top:0px;left:0px; width:100%; height:60%;">
+			</image>
+			
 			<view style="position: relative;" @click="GoScan">
 				<img src="/static/circleBg.png" 
-					style="width: 177px;height: 177px;">
+					style="width: 177px;height: 177px;margin-bottom: 110px;">
 				</img>
 				<img src="/static/scan.png" 
 					style="position: absolute;left: 60px; top: 50px; width: 59px;height: 59px;">
 				</img>
 				<div class="uni-h4" 
-					style="position: absolute;left: 50px; top: 115px;color: #fff;">
+					style="letter-spacing: 2px; position: absolute;left: 52px; top: 110px;color: #fff;">
 					扫码购物
 				</div>
 			</view>
@@ -20,13 +25,13 @@
 				style="position: absolute;left: 0px;bottom: 0px;width: 100%;">
 				<view class="uni-flex uni-column" 
 					style="flex: 1;align-items: center;font-size: 10px;">
-					<img src="/static/home.png" style="width: 20px;height: 20px;"></img>
+					<img src="/static/home.png" style="width: 25px;height: 25px;"></img>
 					首页 
 				</view>
 				
 				<view class="uni-flex uni-column" @click="GoBag"
 					style="flex: 1; align-items: center;font-size: 10px;">
-					<img src="/static/shopBag.png" style="width: 20px;height: 20px;"></img>
+					<img src="/static/shopBag.png" style="width: 25px;height: 25px;"></img>
 					购物车
 				</view>
 			</view>
@@ -80,11 +85,6 @@
 			},
 			GoScan() {
 				
-				// uni.navigateTo({
-				// 	url: '/pages/component/audio/goodDetail/goodDetail?goodInfo=' + 123 + '&modelInfo=' + 456 
-				// })
-				// return 
-				
 				// 允许从相机和相册扫码
 				uni.scanCode({
 					success: function (res) {
@@ -123,9 +123,6 @@
 						
 					}
 				});
-		
-				
-				
 			},
 			 takePhoto() {
 				const ctx = uni.createCameraContext();

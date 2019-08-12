@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "AR资源仿真平台",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "backgroundColor": "#EFEFF3",
   "usingComponents": {}
 }

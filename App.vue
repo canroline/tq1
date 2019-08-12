@@ -34,10 +34,37 @@
 		},
 		onShow: function() {
 			console.log('App Show')
+			this.initIP()
 		},
 		onHide: function() {
 			console.log('App Hide')
-		}
+		},
+		methods: {
+			initIP(){
+				uni.showLoading({
+					title:'程序初始化中...'
+				})
+				uni.request({
+					url: 'http://pv.sohu.com/cityjson?ie=utf-8',
+					dataType: "script", 
+					method:"GET",
+					header: {
+						'content-type': 'application/json',  
+					},
+					success: (res) => {
+						uni.hideLoading()
+						console.log("获取IP=", res )
+						console.log( "data=", res.data,  res.data.split(" = ")[1] )
+						this.$store.state.IPData = JSON.parse( res.data.split(" = ")[1].replace(";","") )
+						
+						console.log( "IPData=", this.$store.state.IPData ) 
+					},
+					fail: res =>{
+						uni.hideLoading()
+					}
+				})
+			}
+		},
 	}
 </script>
 

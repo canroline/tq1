@@ -2,7 +2,8 @@
 	<view class="uni-flex uni-column" style="height: 100%;">
 		
 		<image src="/static/bg.png" 
-			style="position: absolute;top:0px;left:0px; width:100%; min-height:100%;">
+			style="position: absolute;top:0px;left:0px; width:100%; 
+			min-height:100%;border-top: 1px solid #EEEEEE;">
 		</image>
 		
 		<view class="uni-flex" 
@@ -11,15 +12,18 @@
 			@南京飞屋信息科技有限公司
 		</view>
 		
-		<view class="uni-flex uni-column" style="justify-content: center;height: 100%;padding: 20px;margin-top: -80px;">
+		<view class="uni-flex uni-column" 
+			style="justify-content: center; align-items: center; height: 100%;padding: 20px;margin-top: -120px;">
 			
-			<button class="primary-btn" 
-				style="background: linear-gradient(to right, #3A7CF6 , #55A7F8);" >
+			<button class="primary-btn" @click="goAR"
+				style="letter-spacing: 2px; padding: 10px;width: 80%; font-size: 20px;
+				background: linear-gradient(to right, #3A7CF6 , #55A7F8);" >
 				AR冷链物流车
 			</button>
 			
 			<button class="primary-btn" @click="goDetailPage('audio')"
-				style="background: linear-gradient(to right, #3A7CF6 , #55A7F8);" >
+				style="letter-spacing: 2px; padding: 10px;width: 80%;  font-size: 20px;
+				background: linear-gradient(to right, #3A7CF6 , #55A7F8);" >
 				智能商超
 			</button>
 		</view>
@@ -124,27 +128,14 @@
 					}
 				}
 			},
+			goAR() {
+				uni.showToast({ 
+					title: 'AR暂未开放，敬请期待！', 
+					icon:'none', 
+					duration: 3000 ,
+				});
+			},
 			goDetailPage(e) {
-				// pages/tabBar/API/API 
-				
-				// uni.request({
-				// 	
-				// 	url: 'http://tqlovewh66.hicp.net/gs_h5/pay/queryGoodsInfos?goods_no=P2019080320125301',//http://tqshopbest.cn/gs_h5/pay/queryGoodsInfos', 
-				// 	// data: {
-				// 	// 	goods_no: 'P2019080320125301'
-				// 	// },
-				// 	// method:"POST",
-				// 	// header: {
-				// 	// 	'content-type': 'application/x-www-form-urlencoded', 
-				// 	// },
-				// 	success: (res) => {
-				// 		console.log(res.data);
-				// 		// this.text = 'request success';
-				// 	}
-				// });
-				
-				
-				
 				if (typeof e === 'string') {
 					uni.navigateTo({
 						url: '/pages/component/' + e + '/' + e

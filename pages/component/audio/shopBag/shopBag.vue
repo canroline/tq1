@@ -8,65 +8,98 @@
 				</view>
 			</template>
 			<template v-else>
-				<view v-for="(item,index) in orderCarList" :key="index"
-					class="uni-flex" 
-					style="align-items: center; height: 85px;padding: 5px;
-						background: #fff;margin-bottom: 7px;">
-					<view style="flex: 1;padding-left: 20px;">
-						<image :src="item.small_img" style="width: 50px;height: 50px;">
-						</image>
-					</view>
-					<view style="flex: 3;"> 
-						 <text>  {{ item.goods_name }} </text>
-						 <div style="color:#BBBBBB;font-size: 12px;"> 
-							规格：{{ item.goods_model || '--' }}
-						 </div>
-						 
-						 <view class="uni-flex" style="align-items: center;justify-content: space-between;">
-							 <div style="color: #CE3C39;font-size: 12px;">
-								 ¥{{ item.goods_price || 0 }}
-							 </div>
-							 <!-- <div>  item.goods_num={{item.goods_num}}</div> -->
-							 <uni-number-box :min="1" :max="9"  @change="changeNum($event, item)" >
-							 </uni-number-box>
-						 </view>
-					</view>
+				<view style="background: #fff;height: 20px;padding: 15px;
+					border-bottom: 1px solid #DDDDDD;border-top: 1px solid #DDDDDD;">
+					<checkbox-group @change="allCheck">
+						<label>
+							<checkbox value="all" :checked="check_all" />全选
+						</label>
+					</checkbox-group>
 				</view>
+				
+				<checkbox-group @change="ListCheck">
+					<view v-for="(item,index) in orderCarList" :key="index"
+						class="uni-flex" 
+						style="align-items: center; height: 85px;padding: 5px;
+							background: #fff;margin-bottom: 7px;">
+							
+						<checkbox style="padding-left: 10px;" :value="item.goods_no" 
+						:checked="item.checked" />
+						
+						<view style="flex: 1;padding-left: 10px;">
+							<image :src="item.small_img" style="width: 70px;height: 70px;">
+							</image>
+						</view>
+						<view style="flex: 3;"> 
+							 <text>  {{ item.goods_name }} </text>
+							 <div style="color:#BBBBBB;font-size: 12px;"> 
+								规格：{{ item.goods_model || '--' }}
+							 </div>
+							 
+							 <view class="uni-flex" style="align-items: center;justify-content: space-between;">
+								 <div style="color: #CE3C39;font-size: 12px;">
+									 ¥{{ item.goods_price || 0 }}
+								 </div>
+								 <!-- <div>  item.goods_num={{item.goods_num}}</div> -->
+								 <uni-number-box :value="item.goods_num" 
+									min="1" 
+									@change="changeNum($event, item)" >
+								 </uni-number-box>
+							 </view>
+						</view>
+					</view>
+				</checkbox-group>
 			</template>
 		</scroll-view>
 		
+		<!-- <checkbox-group @change="checkboxChange">
+                <label class="uni-list-cell uni-list-cell-pd" v-for="item in items" :key="item.value">
+                    <view>
+                        <checkbox :value="item.value" :checked="item.checked" />
+                    </view>
+                    <view>{{item.name}}</view>
+                </label>
+            </checkbox-group> -->
+		
 		<view class="uni-flex uni-column" 
 			style="background: #fff; position: absolute;left: 0px;bottom: 0px;
-			width: 100%;height: 100px;justify-content: flex-end;">
-			<view class="uni-flex" style="align-items: baseline;">
-				<view style="position: relative;padding-left: 20px;" @click="GoScan">
+			width: 100%;height: 110px;justify-content: flex-end;">
+			
+			<view class="uni-flex" style="position: relative;top: -30px; margin-left: 20px;" >
+				<view class="uni-flex" @click="GoScan">
 					<img src="/static/circleBg.png" 
 						style="width: 59pt;height: 59pt;">
 					</img>
 					<img src="/static/scan.png" 
-						style="position: absolute;left: 45px; top: 25px; 
+						style=" margin-top: 25px;margin-left: -53px;
 						width: 29px;height: 29px;">
 					</img>
 				</view>
-				<view style="margin-bottom: 10px;flex: 1;">
-					合计：<text style="color: #CE3C39;"> ¥{{ sumMoney }}</text>
+				
+				
+				<view class="uni-flex" style="align-items: flex-end;
+					margin-left: 30px; margin-bottom: -15px; width: 90%;" >
+					<view style="margin-bottom: 10px;flex: 1;">
+						合计：<text style="color: #CE3C39;"> ¥{{ sumMoney }}</text>
+					</view>
+					<button class="mini-btn" type="warn"  @click="payOrder"
+						style="height: 30px; width: 80pt; right: 10px;
+						font-size:13px;border-radius: 15px;margin-bottom: 10px;" >
+						结算
+					</button>
 				</view>
-				<button class="mini-btn" type="warn"  @click="payOrder"
-					style="height: 30px; width: 80pt; right: 10px;
-					font-size:13px;border-radius: 15px;margin-bottom: 10px;" >
-					结算
-				</button>
 			</view>
-		 
+			
+			
 			<view class="uni-flex" style="width: 100%;">
 				<view class="uni-flex uni-column" @click="GoHome"
 					style="flex: 1;align-items: center;font-size: 10px;">
-					<img src="/static/home2.png" style="width: 20px;height: 20px;"></img>
+					<img src="/static/home2.png" style="width: 25px;height: 25px;"></img>
 					首页 
 				</view>
 				<view class="uni-flex uni-column" 
 					style="flex: 1; align-items: center;font-size: 10px;">
-					<img src="/static/shopBag2.png" style="width: 20px;height: 20px;"></img>
+					<img src="/static/shopBag2.png" style="width: 25px;height: 25px;"></img>
 					购物车
 				</view>
 			</view>
@@ -84,15 +117,34 @@
 		},
 		data() {
 			return {
+				check_all: true,
 				orderCarList:[],
 				val: 1,
+				IPData:{},
+				wxPayData: {},
+				
+				
 			}
 		},
 		computed: {
+			// check_all() {
+			// 	let all = true
+			// 	this.orderCarList.forEach( item => {
+			// 		if(!item.checked){
+			// 			all = false
+			// 		}
+			// 	})
+			// 	return all
+			// },
 			sumMoney() {
+				let Add = this.$store.state.Add
+				let Multiply = this.$store.state.Multiply
 				let sumMoney = 0
 				this.orderCarList.forEach( item => {
-					sumMoney = Number( item.goods_price ) * Number( item.goods_num ) + sumMoney
+					if( item.checked ){
+						// sumMoney = Number( item.goods_price ) * Number( item.goods_num ) + sumMoney
+						sumMoney = Add( Multiply( Number( item.goods_price ), Number( item.goods_num ) ) , sumMoney )
+					}
 				})
 				return sumMoney
 			}
@@ -107,11 +159,111 @@
 			} else {
 				this.orderCarList = this.$store.state.orderCarList
 			}
+			// this.getIP()
+			setTimeout( ()=>{
+				this.inited = true
+				console.log("inited !!!!")
+			}, 1000)
+			console.log(">>>>onShow")
 		},
 		methods: {
+			getIP(){
+				uni.request({
+					url: 'http://pv.sohu.com/cityjson?ie=utf-8',
+					dataType: "script",
+					method:"GET",
+					header: {
+						'content-type': 'application/json', 
+					},
+					success: (res) => {
+						console.log("获取IP=", res )
+						console.log( "data=", res.data,  res.data.split(" = ")[1] )
+						this.IPData = JSON.parse( res.data.split(" = ")[1].replace(";","") )
+						console.log( "this.IPData=", this.IPData ) 
+					}
+				})
+			},
+			ListCheck(e) {
+				console.log("ListCheck =", e  )
+				let values = e.detail.value;
+				if(values.length == this.orderCarList.length){
+					this.check_all = true
+				} else {
+					this.check_all = false
+				}
+				this.orderCarList.forEach(item => {
+					if(values.includes(item.goods_no)){
+						item.checked = true
+					}else{
+						item.checked = false
+					}
+				})
+				console.log("this.orderCarList =", this.orderCarList)
+			},
+			allCheck: function (e) {
+				console.log("allCheck =", e, this.check_all )
+                    let values = e.detail.value;
+					let check = false
+					if(values.includes('all')){
+						check = true
+					}
+					
+					this.orderCarList.forEach( item => {
+						item.checked = check
+					})
+					console.log("this.orderCarList =", this.orderCarList)
+					
+                // for (var i = 0, lenI = items.length; i < lenI; ++i) {
+                //     const item = items[i]
+                //     if(values.includes(item.value)){
+                //         this.$set(item,'checked',true)
+                //     }else{
+                //         this.$set(item,'checked',false)
+                //     }
+                // }
+            },
+			
 			changeNum(val, item) {
 				console.log("bindChange val=", val, item )
+				if(val<1) return
+				this.flag = val> item.goods_num ? 1 : 2
 				item.goods_num = val
+				if(!this.inited) return
+				this.addBag(item, val )
+			},
+			addBag(goodInfo, count ) {
+				// if(Number(count) > Number(goodInfo.good_stock) ){
+				// 	uni.showToast({ title: '您购买数量超过库存！', icon:'none', duration: 2000 });
+				// 	return
+				// }
+				uni.showLoading({
+					title: '添加中'  
+				});
+		
+				let request_params = {
+					goods_no: goodInfo.goods_no,
+					goods_model: goodInfo.goods_model,
+					goods_num: count ,
+					goods_name: goodInfo.goods_name,
+					openid: this.$store.state.sysOpenid,
+					goods_price: goodInfo.goods_price,
+					flag: this.flag
+				}
+				this.$store.dispatch( "addBag", request_params ).then( res => {
+					console.log("shopBag res =", res)
+					if(res.code!=0){  
+						if( res.stock && goodInfo.goods_num> res.stock){
+							goodInfo.goods_num = res.stock //goodInfo.goods_num -1
+						}
+						uni.showToast({ title: res.msg || '添加购物车失败！', icon:'none', duration: 2000 })
+					}
+					
+				}).catch ( err =>{
+					if( err.stock && goodInfo.goods_num> err.stock ){
+						goodInfo.goods_num = err.stock // goodInfo.goods_num -1
+					}
+					uni.showToast({ title: err.msg || '添加购物车失败！', icon:'none', duration: 2000 })
+				})
 			},
 			payOrder() {
 				if(this.sumMoney==0){
@@ -122,67 +274,134 @@
 				}
 			},
 			pay() {
-				
-				// 仅作为示例，非真实参数信息。
-				// uni.requestPayment({
-				// 	provider: 'wxpay',
-				// 	timeStamp: String(Date.now()),
-				// 	nonceStr: 'A1B2C3D4E5',
-				// 	package: 'prepay_id=wx20180101abcdefg',
-				// 	signType: 'MD5',
-				// 	paySign: '',
-				// 	success: function (res) {
-				// 		console.log('success:' + JSON.stringify(res));
-				// 	},
-				// 	fail: function (err) {
-				// 		console.log('fail:' + JSON.stringify(err));
-				// 	}
-				// });
-				
-				uni.showToast({ title: '模拟数据 支付成功！！', icon:'none', duration: 2000 });
-				return 
-				
-				
-				
 				let openid = this.$store.state.sysOpenid
-				let price = this.sumMoney
+				let price = 0.1//this.sumMoney
 				let allList = []
 				this.orderCarList.forEach( item => {
-					let _d = {
-						"good_num":item.goods_num, 
-						"good_no": item.goods_no, 
-						"amt": item.goods_price, 
-						"good_name": item.goods_name, 
-						"good_model": item.goods_model,
+					if( item.checked ){
+						let _d = {
+							"good_num":item.goods_num, 
+							"good_no": item.goods_no, 
+							"amt": item.goods_price, 
+							"good_name": item.goods_name, 
+							"good_model": item.goods_model, 
+						}
+						allList.push( _d )
 					}
-					allList.push( _d )
 				})
+				if( allList.length<1 ){
+					uni.showToast({ title: '请选择要支付的商品！！', icon:'none', duration: 2000 });
+					return 
+				}
+				
+				uni.showLoading({
+					title:"付款中..."
+				})
+				
 			
 				uni.request({
 					url: 'https://feiwuar.goho.co/pay/wxGzPayOrder',
 					data: {
-						openid, price, allList
+						openid, 
+						price, 
+						allList: JSON.stringify( allList ), 
+						ip: this.$store.state.IPData.cip
 					},
 					method:"POST",
 					header: {
 						'content-type': 'application/x-www-form-urlencoded', 
 					},
 					success: (res) => {
-						console.log("付钱 pay=", res.data);
-						// if( res.data.code=="0000" ){
-						// 	uni.navigateTo({
-						// 		url: '/pages/component/audio/goodDetail/goodDetail?goodInfo=' + encodeURIComponent( JSON.stringify(res.data.goodinfo) ) 
-						// 	})
-						// } else {
-						// 	uni.showToast({ title: '获取商品信息失败！', icon:'none', duration: 2000 });
-						// }
+						console.log("付钱 pay=", res, openid, price, allList, this.IPData.cip );
+						if( res.statusCode==200 && res.data.code=='0000' ){
+							this.wxPayData = res.data 
+							this.GoWXPay()
+						} else {
+							uni.hideLoading()
+							uni.showToast({ title: '创建订单失败！', icon:'none', duration: 2000 });
+						}
 					}
 				});
+			},
+			GoWXPay() {
+				uni.requestPayment({
+					provider: 'wxpay',
+					timeStamp: this.wxPayData.timeStamp,
+					nonceStr: this.wxPayData.nonceStr,
+					package: 'prepay_id=' + this.wxPayData.prepay_id,
+					signType: this.wxPayData.signType,
+					paySign: this.wxPayData.paySign,
+					success:  (res)=> {
+						uni.hideLoading()
+						console.log('GoWXPay success:' + JSON.stringify(res));
+						// this.$store.dispatch("getBagList")//重新初始化购物车
+						let page_url = "/pages/component/audio/shopBag/PayPage/PayPage?payCode="
+						uni.navigateTo({
+							url: page_url + 0 + '&msg=' + res.errMsg
+						})
+						this.$store.dispatch("getBagList")//重新初始化购物车
+					},
+					fail:  (res)=> {
+						console.log('GoWXPay fail:' + JSON.stringify(res));
+						uni.hideLoading()
+						let page_url = "/pages/component/audio/shopBag/PayPage/PayPage?payCode="
+						uni.navigateTo({
+							url: page_url + 1 + '&msg=' + res.errMsg 
+						})
+						this.updateStock()
+					}
+				});
+				
+			},
+			
+			updateStock() {
+				this.$store.dispatch("updateStock", this.wxPayData.order_no)
 			},
 			GoHome() {
 				uni.navigateTo({
 					url: '/pages/tabBar/component/component' 
 				})
+			},
+			GoScan() {
+				
+				// 允许从相机和相册扫码
+				uni.scanCode({
+					success: function (res) {
+						console.log('条码类型：' + res.scanType);
+						console.log('条码内容：' + res.result);
+						let goods_no = res.result
+						if(!goods_no){
+							uni.showToast({ title: '请检查二维码是否正确！', icon:'none', duration: 2000 });
+							return 
+						}
+						
+						console.log('goods_no：' + goods_no );
+						
+						uni.request({
+							url: 'https://feiwuar.goho.co/pay/queryGoodsInfos',
+							data: {
+								goods_no: goods_no
+							}, 
+							method:"GET",  
+							header: {
+								'content-type': 'application/x-www-form-urlencoded', 
+							},
+							success: (res) => {
+								console.log("queryGoodsInfos=", res.data);
+								if( res.data.code=="0000" ){
+									var goodInfo = encodeURIComponent( JSON.stringify(res.data.goodinfo) )
+									var modelInfo= encodeURIComponent( JSON.stringify(res.data.modelList) )
+									uni.navigateTo({
+										url: '/pages/component/audio/goodDetail/goodDetail?goodInfo=' + goodInfo + '&modelInfo=' + modelInfo 
+									})
+								} else {
+									uni.showToast({ title: '获取商品信息失败！', icon:'none', duration: 2000 });
+								}
+							}
+						});
+						
+					}
+				});
 			},
 		}
 	}
