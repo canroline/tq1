@@ -84,37 +84,6 @@
 			// });
 		},
 		methods: {
-			// getOpenId(code) {
-			// 	uni.request({
-			// 		url: 'https://feiwuar.goho.co/pay/getOpenId',
-			// 		data: {
-			// 			code
-			// 		},
-			// 		method:"POST",
-			// 		header: {
-			// 			'content-type': 'application/x-www-form-urlencoded', 
-			// 		},
-			// 		success: (res) => {
-			// 			console.log("getOpenId=", res.data );
-			// 			this.$store.commit("setSysOpenid", res.data.openid )
-			// 			console.log("系统自己的 sysOpenid=", this.$store.state.sysOpenid ); 
-			// 			uni.setStorage({
-			// 				key: 'AROpenid',
-			// 				data: res.data.openid,
-			// 				success: function () {
-			// 					console.log('保存openid成功！');
-			// 				}
-			// 			});
-			// 			
-			// 			this.$store.dispatch("getBagList").then(  data=>{
-			// 				console.log("获取购物车列表 getBagList=", data );
-			// 			}).catch( err=> {
-			// 				uni.showToast({ title: err, icon:'none', duration: 2000 });
-			// 			})
-			// 			
-			// 		}
-			// 	});
-			// },
 			triggerCollapse(e) {
 				if (!this.lists[e].pages) {
 					this.goDetailPage(this.lists[e].url);
@@ -129,14 +98,14 @@
 				}
 			},
 			goAR() {
-				uni.showToast({ 
-					title: 'AR暂未开放，敬请期待！', 
-					icon:'none', 
-					duration: 3000 ,
-				});
-				// uni.navigateTo({
-				// 	url: "/pages/tabBar/component/modelPage/modelPage"
-				// })
+				// uni.showToast({ 
+				// 	title: 'AR暂未开放，敬请期待！', 
+				// 	icon:'none', 
+				// 	duration: 3000 ,
+				// });
+				uni.navigateTo({
+					url: "/pages/tabBar/component/modelPage/modelPage"
+				})
 			},
 			goDetailPage(e) {
 				if (typeof e === 'string') {

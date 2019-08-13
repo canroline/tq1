@@ -20,7 +20,7 @@ Vue.component('page-foot', pageFoot)
 Vue.component('uLink', uLink)
 
 // import { ModelObj } from 'vue-3d-model';
-// Vue.components('model-obj', ModelObj)
+// Vue.components('ModelObj', ModelObj)
 
 App.mpType = 'app'
 

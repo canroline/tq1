@@ -103,24 +103,34 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-
-// import { ModelObj } from 'vue-3d-model';
-var _default = {
-  // components: { ModelObj }, 
-  data: function data() {
-    return {};
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
-  },
+
+
+
+
+
+
+
+
+
+
+var _vue3dModel = __webpack_require__(/*! vue-3d-model */ 109); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// import { ModelObj } from '@/components/vue-3D/vue-3d-model';
+// import package from 'packageName'
+var ModelObj1 = __webpack_require__(/*! vue-3d-model */ 109);var _default = { components: {// ModelObj
+  }, data: function data() {return { model_path: 'static/model/LeePerrySmith.obj' };}, onShow: function onShow() {console.log("ModelObj=");},
   methods: {} };exports.default = _default;
 
 /***/ })

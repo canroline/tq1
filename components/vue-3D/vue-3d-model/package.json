@@ -1,0 +1,82 @@
+{
+  "_from": "vue-3d-model@^1.1.1",
+  "_id": "vue-3d-model@1.1.1",
+  "_inBundle": false,
+  "_integrity": "sha512-JiFps3Uiho2wHtcapx+WwuTIxGHZXYsrOdG+T9bEy12FtNQcAo/JN58pG+RyChi8DUphnZXBt+XeeZLbeDz/jA==",
+  "_location": "/vue-3d-model",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "vue-3d-model@^1.1.1",
+    "name": "vue-3d-model",
+    "escapedName": "vue-3d-model",
+    "rawSpec": "^1.1.1",
+    "saveSpec": null,
+    "fetchSpec": "^1.1.1"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/vue-3d-model/-/vue-3d-model-1.1.1.tgz",
+  "_shasum": "dd03c4d79a4a2d0a7837c99377b98b884bf032f3",
+  "_spec": "vue-3d-model@^1.1.1",
+  "_where": "C:\\Users\\Administrator\\Desktop\\test",
+  "author": {
+    "name": "Jiulong Hu",
+    "email": "me@hujiulong.com"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "three": "^0.105.2"
+  },
+  "deprecated": false,
+  "description": "3D models viewer with vue.js",
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.1",
+    "@vue/cli-plugin-eslint": "^3.0.1",
+    "@vue/cli-plugin-unit-jest": "^3.0.1",
+    "@vue/cli-service": "^3.0.1",
+    "@vue/eslint-config-airbnb": "^4.0.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "core-js": "^2.6.9",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "highlight.js": "^9.15.8",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.6",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "files": [
+    "dist",
+    "src",
+    "LICENSE",
+    "package.json",
+    "preview.gif",
+    "README.md"
+  ],
+  "keywords": [
+    "vue",
+    "three.js",
+    "component"
+  ],
+  "main": "dist/vue-3d-model.umd.js",
+  "name": "vue-3d-model",
+  "peerDependencies": {
+    "vue": ">=2.0.0"
+  },
+  "scripts": {
+    "build": "vue-cli-service build --target lib --name vue-3d-model src/index.js",
+    "build-examples": "vue-cli-service build examples/index.js --dest docs",
+    "dev": "vue-cli-service serve examples/index.js",
+    "lint": "vue-cli-service lint src/ tests/ examples/ --fix",
+    "test": "vue-cli-service test:unit"
+  },
+  "version": "1.1.1"
+}
