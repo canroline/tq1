@@ -168,16 +168,23 @@
 			// this.model_checked =  this.modelInfo[0].goods_model  
 			
         },
+		onShow() {
+			uni.$on('updateBag', (data)=>{
+				console.log("on updateBag>>>")
+				this.bagCount = this.$store.state.orderCarList.length || 0
+			})
+		},
 		methods: {
 			changeNum( val ) {
 				if(val<1) return
-				this.flag = val> this.buyCount ? 1 : 2
+				this.flag = val>= this.buyCount ? 1 : 2
 				this.buyCount = val
 			},
 			GoHome() {
-				uni.navigateTo({
-					url: '/pages/tabBar/component/component' 
-				})
+				// uni.navigateTo({
+				// 	url: '/pages/tabBar/component/component' 
+				// })
+				uni.reLaunch({ url: '/pages/tabBar/component/component'});
 			},
 			GoBag() {
 				uni.navigateTo({
@@ -208,6 +215,7 @@
 					let data = this.goodInfo
 					data.goods_model = this.modelInfo[this.current].goods_model
 					data.goods_num = this.buyCount 
+					data.flag = 1
 					uni.showLoading({
 						title:"支付中..."
 					})
@@ -243,10 +251,7 @@
 				}
 				this.$store.dispatch( "addBag", request_params ).then( res => {
 					if(res.code==0){
-						// this.bagCount = res.bagCount
-						setTimeout( ()=>{
-							this.bagCount = this.$store.state.orderCarList.length || 0
-						},1000)
+						
 					}
 					this.closePopup()
 					uni.hideLoading()
@@ -268,9 +273,8 @@
 					success:  (res)=> {
 						uni.hideLoading()
 						console.log('GoWXPay success:' + JSON.stringify(res));
-						// this.$store.dispatch("getBagList")//重新初始化购物车
 						let page_url = "/pages/component/audio/shopBag/PayPage/PayPage?payCode="
-						uni.navigateTo({
+						uni.redirectTo({
 							url: page_url + 0 + '&msg=' + res.errMsg
 						})
 						this.$store.dispatch("getBagList")//重新初始化购物车
@@ -279,7 +283,7 @@
 						console.log('GoWXPay fail:' + JSON.stringify(res));
 						uni.hideLoading()
 						let page_url = "/pages/component/audio/shopBag/PayPage/PayPage?payCode="
-						uni.navigateTo({
+						uni.redirectTo({
 							url: page_url + 1 + '&msg=' + res.errMsg 
 						})
 						this.$store.dispatch("updateStock", this.wxPayData.order_no)

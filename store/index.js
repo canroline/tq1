@@ -51,7 +51,7 @@ const store = new Vuex.Store({
 		openid: null,
 		sysOpenid: null, //系统openid
 		orderCarList: [], //购物车列表
-		IPData: null, //IP
+		IPData: {cip:''}, //IP
 		Add,Minus,Multiply,Division 
 	},
 	mutations: {
@@ -129,6 +129,11 @@ const store = new Vuex.Store({
 		},
 		
 		addBag: async function ({commit, state, dispatch}, data ) {
+				if( !data.openid ){
+					uni.showToast({ title: '用户未初始化，请退出重新登录！', icon:'none', duration: 3000 });
+					return 
+				}
+			
 				return await new Promise((resolve, reject) => {
 					uni.request({
 						url: 'https://feiwuar.goho.co/pay/addOrderCar', 
@@ -142,68 +147,68 @@ const store = new Vuex.Store({
 							uni.hideLoading(); 
 							if( res.data.code=="0000" ){
 								resolve( {code:0, stock: res.data.stock})
-								dispatch("getBagList").then( res=> {
-									// let bagCount = state.orderCarList.length || 0
-									// resolve( {code:0, bagCount})
-								}).catch( err =>{
-									// resolve( {code:0, bagCount: -1}) //bagCount==-1 获取购物车失败
+								dispatch("getBagList").then( res=>{
+									uni.$emit('updateBag', res)
 								})
 							} else {
 								reject( {code:1, msg: res.data.msg || '添加购物车失败！', stock: res.data.stock } )
-								// uni.showToast({ title: res.data.msg || '添加购物车失败！', icon:'none', duration: 2000 });
+								setTimeout( ()=>{
+									uni.showToast({ title: res.data.msg || '添加购物车失败！', icon:'none', duration: 3000 })
+								}, 500)
 							}
+						},
+						fail: ( err ) => {
+							reject( {code:1, msg: '添加购物车异常！', stock: res.data.stock } )
+							setTimeout( ()=>{
+								uni.showToast({ title: '添加购物车异常', icon:'none', duration: 3000 })
+							}, 500)
 						}
 					});
 				})
 		},
 		
 		payGood: async function ({commit, state, dispatch}, data ) { //立即购买
-			let openid = state.sysOpenid
-			let price = 0.1 // data.sumMoney
-			let allList = []
-			// this.orderCarList.forEach( item => {
-			// 	if( item.checked ){
-					let _d = {
-						"good_num":data.goods_num, 
-						"good_no": data.goods_no, 
-						"amt": data.goods_price, 
-						"good_name": data.goods_name, 
-						"good_model": data.goods_model, 
-					}
-					allList.push( _d )
-			// 	}
-			// })
-			// if( allList.length<1 ){
-			// 	uni.showToast({ title: '请选择要支付的商品！！', icon:'none', duration: 2000 });
-			// 	return 
-			// }
-			
-			console.log(" allList =", allList )
-			
-						
-			
-			
+				let openid = state.sysOpenid
+				if( !openid ){
+					uni.showToast({ title: '用户未初始化，请退出重新登录！', icon:'none', duration: 3000 });
+					return 
+				}
+				
+				let price = 0.1 // data.sumMoney
+				let allList = []
+				let _d = {
+					"good_num":data.goods_num, 
+					"good_no": data.goods_no, 
+					"amt": data.goods_price, 
+					"good_name": data.goods_name, 
+					"good_model": data.goods_model, 
+				}
+				// if(data.flag){
+				// 	_d.flag = data.flag
+				// }
+				let flag = data.flag ? data.flag : -1
+				allList.push( _d )
+				console.log(" allList =", allList )
 				return await new Promise((resolve, reject) => {
 					uni.request({
-						url: 'https://feiwuar.goho.co/pay/wxGzPayOrder',
+						url: 'https://feiwuar.goho.co/pay/wxArPayOrder',
 						data: {
 							openid, 
 							price, 
+							flag,
 							allList: JSON.stringify( allList ), 
-							ip: state.IPData.cip
+							// ip: state.IPData.cip
 						},
 						method:"POST",
 						header: {
 							'content-type': 'application/x-www-form-urlencoded', 
 						},
 						success: (res) => {
-							console.log("付钱 pay=", res, openid, price, allList, state.IPData.cip );
+							console.log("付钱 pay=", res, openid, price, allList );
 							if( res.statusCode==200 && res.data.code=='0000' ){
 								resolve( res.data )
-								// this.wxPayData = res.data 
-								// this.GoWXPay()
 							} else {
-								uni.showToast({ title: '创建订单失败！', icon:'none', duration: 2000 });
+								uni.showToast({ title: res.data.msg || '创建订单失败！', icon:'none', duration: 2000 });
 								reject( res.data )
 							}
 						}

@@ -1,7 +1,7 @@
 <template>
 	<view style="background: #EFEFF3;height: 100%;">
 		<scroll-view style="height: 70%;background: #EFEFF3;" scroll-y="true" >
-			<template v-if="orderCarList.length<1">
+			<template v-if="no_bag_data">
 				<view class="uni-flex uni-column" style="color:#999999; align-items: center;justify-content: center;height: 100%;" >
 					<image src="/static/shopBag.png" style="width: 80px; height: 80px;"></image>
 					<view style="padding-top: 20px;">当前还没有商品，请扫码添加商品</view>
@@ -17,16 +17,18 @@
 					</checkbox-group>
 				</view>
 				
+				<!-- orderCarList == {{ orderCarList }} -->
+				
 				<checkbox-group @change="ListCheck">
 					<view v-for="(item,index) in orderCarList" :key="index"
 						class="uni-flex" 
 						style="align-items: center; height: 85px;padding: 5px;
 							background: #fff;margin-bottom: 7px;">
 							
-						<checkbox style="padding-left: 10px;" :value="item.goods_no" 
+						<checkbox style="padding-left: 10px;" :value="item.goods_no + '_' + item.goods_model" 
 						:checked="item.checked" />
 						
-						<view style="flex: 1;padding-left: 10px;">
+						<view style="flex: 1;padding-left: 10px;"> 
 							<image :src="item.small_img" style="width: 70px;height: 70px;">
 							</image>
 						</view>
@@ -119,23 +121,14 @@
 			return {
 				check_all: true,
 				orderCarList:[],
-				val: 1,
-				IPData:{},
+				// val: 1,
+				// IPData:{},
 				wxPayData: {},
-				
-				
+				no_bag_data: false, //背包没数据
+				inited: 0,
 			}
 		},
 		computed: {
-			// check_all() {
-			// 	let all = true
-			// 	this.orderCarList.forEach( item => {
-			// 		if(!item.checked){
-			// 			all = false
-			// 		}
-			// 	})
-			// 	return all
-			// },
 			sumMoney() {
 				let Add = this.$store.state.Add
 				let Multiply = this.$store.state.Multiply
@@ -150,39 +143,28 @@
 			}
 		},
 		onShow(data) {
-			if( this.$store.state.orderCarList.length<1 ){
+				uni.showLoading({
+					title:"获取中..."
+				})
 				this.$store.dispatch("getBagList").then(  data=>{
 					console.log("获取购物车列表 getBagList=", data );
+					uni.hideLoading()
+					this.orderCarList = this.$store.state.orderCarList
+					if( this.orderCarList.length<1 ){
+						this.no_bag_data = true
+					}
 				}).catch( err=> {
+					uni.hideLoading()
+					this.no_bag_data = true  
 					uni.showToast({ title: err, icon:'none', duration: 2000 });
 				})
-			} else {
-				this.orderCarList = this.$store.state.orderCarList
-			}
-			// this.getIP()
-			setTimeout( ()=>{
-				this.inited = true
-				console.log("inited !!!!")
-			}, 1000)
-			console.log(">>>>onShow")
+				
+				// setTimeout( ()=>{
+				// 	this.inited = true
+				// 	console.log("inited !!!!")
+				// }, 1000)
 		},
 		methods: {
-			getIP(){
-				uni.request({
-					url: 'http://pv.sohu.com/cityjson?ie=utf-8',
-					dataType: "script",
-					method:"GET",
-					header: {
-						'content-type': 'application/json', 
-					},
-					success: (res) => {
-						console.log("获取IP=", res )
-						console.log( "data=", res.data,  res.data.split(" = ")[1] )
-						this.IPData = JSON.parse( res.data.split(" = ")[1].replace(";","") )
-						console.log( "this.IPData=", this.IPData ) 
-					}
-				})
-			},
 			ListCheck(e) {
 				console.log("ListCheck =", e  )
 				let values = e.detail.value;
@@ -192,13 +174,13 @@
 					this.check_all = false
 				}
 				this.orderCarList.forEach(item => {
-					if(values.includes(item.goods_no)){
+					if( values.includes(item.goods_no + "_" + item.goods_model) ){
 						item.checked = true
 					}else{
 						item.checked = false
 					}
 				})
-				console.log("this.orderCarList =", this.orderCarList)
+				console.log("this.orderCarList =", this.check_all, this.orderCarList)
 			},
 			allCheck: function (e) {
 				console.log("allCheck =", e, this.check_all )
@@ -207,30 +189,27 @@
 					if(values.includes('all')){
 						check = true
 					}
+					this.check_all = check
 					
 					this.orderCarList.forEach( item => {
 						item.checked = check
 					})
 					console.log("this.orderCarList =", this.orderCarList)
-					
-                // for (var i = 0, lenI = items.length; i < lenI; ++i) {
-                //     const item = items[i]
-                //     if(values.includes(item.value)){
-                //         this.$set(item,'checked',true)
-                //     }else{
-                //         this.$set(item,'checked',false)
-                //     }
-                // }
             },
 			
 			changeNum(val, item) {
-				console.log("bindChange val=", val, item )
+				console.log("bindChange val=", val, item, this.inited )
 				if(val<1) return
 				this.flag = val> item.goods_num ? 1 : 2
 				item.goods_num = val
-				if(!this.inited) return
+				if( this.inited < this.orderCarList.length ){
+					this.inited = this.inited + 1
+					return
+				} 
+				console.log("bindChange inited=", this.inited )
 				this.addBag(item, val )
 			},
+			
 			addBag(goodInfo, count ) {
 				// if(Number(count) > Number(goodInfo.good_stock) ){
 				// 	uni.showToast({ title: '您购买数量超过库存！', icon:'none', duration: 2000 });
@@ -247,7 +226,6 @@
 					goods_name: goodInfo.goods_name,
 					openid: this.$store.state.sysOpenid,
 					goods_price: goodInfo.goods_price,
-					flag: this.flag
 				}
 				this.$store.dispatch( "addBag", request_params ).then( res => {
 					console.log("shopBag res =", res)
@@ -255,14 +233,18 @@
 						if( res.stock && goodInfo.goods_num> res.stock){
 							goodInfo.goods_num = res.stock //goodInfo.goods_num -1
 						}
-						uni.showToast({ title: res.msg || '添加购物车失败！', icon:'none', duration: 2000 })
+						// setTimeout( ()=>{
+						// 	uni.showToast({ title: err.msg || '添加购物车失败！', icon:'none', duration: 3000 })
+						// }, 1000)
 					}
-					
 				}).catch ( err =>{
 					if( err.stock && goodInfo.goods_num> err.stock ){
 						goodInfo.goods_num = err.stock // goodInfo.goods_num -1
 					}
-					uni.showToast({ title: err.msg || '添加购物车失败！', icon:'none', duration: 2000 })
+					// setTimeout( ()=>{
+					// 	uni.showToast({ title: err.msg || '添加购物车失败！', icon:'none', duration: 3000 })
+					// }, 1000)
+					
 				})
 			},
 			payOrder() {
@@ -300,19 +282,19 @@
 				
 			
 				uni.request({
-					url: 'https://feiwuar.goho.co/pay/wxGzPayOrder',
+					url: 'https://feiwuar.goho.co/pay/wxArPayOrder',
 					data: {
 						openid, 
 						price, 
 						allList: JSON.stringify( allList ), 
-						ip: this.$store.state.IPData.cip
+						// ip: this.$store.state.IPData.cip
 					},
 					method:"POST",
 					header: {
 						'content-type': 'application/x-www-form-urlencoded', 
 					},
 					success: (res) => {
-						console.log("付钱 pay=", res, openid, price, allList, this.IPData.cip );
+						console.log("付钱 pay=", res, openid, price, allList);
 						if( res.statusCode==200 && res.data.code=='0000' ){
 							this.wxPayData = res.data 
 							this.GoWXPay()
@@ -324,6 +306,8 @@
 				});
 			},
 			GoWXPay() {
+				let page_url_path = "/pages/component/audio/shopBag/PayPage/PayPage?payCode="
+				
 				uni.requestPayment({
 					provider: 'wxpay',
 					timeStamp: this.wxPayData.timeStamp,
@@ -335,18 +319,16 @@
 						uni.hideLoading()
 						console.log('GoWXPay success:' + JSON.stringify(res));
 						// this.$store.dispatch("getBagList")//重新初始化购物车
-						let page_url = "/pages/component/audio/shopBag/PayPage/PayPage?payCode="
 						uni.navigateTo({
-							url: page_url + 0 + '&msg=' + res.errMsg
+							url: page_url_path + 0 + '&msg=' + res.errMsg
 						})
 						this.$store.dispatch("getBagList")//重新初始化购物车
 					},
 					fail:  (res)=> {
 						console.log('GoWXPay fail:' + JSON.stringify(res));
 						uni.hideLoading()
-						let page_url = "/pages/component/audio/shopBag/PayPage/PayPage?payCode="
 						uni.navigateTo({
-							url: page_url + 1 + '&msg=' + res.errMsg 
+							url: page_url_path + 1 + '&msg=' + res.errMsg 
 						})
 						this.updateStock()
 					}
@@ -358,9 +340,10 @@
 				this.$store.dispatch("updateStock", this.wxPayData.order_no)
 			},
 			GoHome() {
-				uni.navigateTo({
-					url: '/pages/tabBar/component/component' 
-				})
+				uni.reLaunch({ url: '/pages/tabBar/component/component'});
+				// uni.navigateTo({
+				// 	url: '/pages/tabBar/component/component' 
+				// })
 			},
 			GoScan() {
 				

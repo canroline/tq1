@@ -19,6 +19,9 @@ Vue.component('page-head', pageHead)
 Vue.component('page-foot', pageFoot)
 Vue.component('uLink', uLink)
 
+// import { ModelObj } from 'vue-3d-model';
+// Vue.components('model-obj', ModelObj)
+
 App.mpType = 'app'
 
 const app = new Vue({

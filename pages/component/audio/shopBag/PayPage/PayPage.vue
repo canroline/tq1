@@ -36,6 +36,10 @@
 			this.payCode = data.payCode
 			this.errMSg = data.msg
 		},
+		onUnload() {
+			console.log("onUnload===>>>")
+			uni.reLaunch({ url: '/pages/tabBar/component/component'});
+		},
 		methods: {
 			
 		}

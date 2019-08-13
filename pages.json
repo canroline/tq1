@@ -2,87 +2,29 @@
 	"pages": [
 		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/tabBar/component/component", // pages/component/audio/goodDetail/goodDetail
+			"path": "pages/tabBar/component/component", 
 			"style": {
 				"navigationBarTitleText": "AR资源仿真平台",
 				"navigationBarBackgroundColor":"#FFFFFF",
 				"backgroundColor":"#EFEFF3"
-				// "titleNView":{
-				// 	"border-bottom": "1px solid #f5f5f5",
-				// 	"font-size": "18px"
-				// }
-				// "app-plus": {
-				// 	"bounce": "vertical",
-				// 	"titleNView": {
-				// 		"buttons": [{
-				// 			"text": "\ue534",
-				// 			"fontSrc": "/static/uni.ttf",
-				// 			"fontSize": "22px",
-				// 			"color": "#999999"
-				// 		}]
-				// 	}
-				// }
 			}
 		},
-		{
-			"path": "pages/tabBar/API/API",
-			"style": {
-				"navigationBarTitleText": "接口22",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "\ue534",
-							"fontSrc": "/static/uni.ttf",
-							"fontSize": "22px",
-							"color": "#999999"
-						}]
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/tabBar/template/template",
-			"style": {
-				"navigationBarTitleText": "模版",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "\ue534",
-							"fontSrc": "/static/uni.ttf",
-							"fontSize": "22px",
-							"color": "#999999"
-						}]
-					}
-				}
-			}
-		}, {
-			"path": "pages/tabBar/extUI/extUI",
-			"style": {
-				"navigationBarTitleText": "扩展组件",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "\ue534",
-							"fontSrc": "/static/uni.ttf",
-							"fontSize": "22px",
-							"color": "#999999"
-						}]
-					}
-				}
-			}
-		}, 
-		// #ifndef MP-ALIPAY || MP-TOUTIAO
 		{
 			"path": "pages/component/audio/audio",
 			"style": {
 				"navigationBarTitleText": "智联商超"
 			}
 		},
-		// #endif
 		{
 			"path": "pages/component/audio/shopBag/shopBag",
 			"style": {
 				"navigationBarTitleText": "购物车"
+			}
+		},
+		{
+			"path": "pages/component/audio/shopBag/PayPage/PayPage",
+			"style": {
+				"navigationBarTitleText": "支付详情"
 			}
 		},
 		{
@@ -92,57 +34,13 @@
 			}
 		},
 		{
-			"path": "platforms/app-plus/speech/speech",
-			"style": {
-				"navigationBarTitleText": "语音识别"
-			}
-		},
-		{
-			"path": "platforms/app-plus/orientation/orientation",
-			"style": {
-				"navigationBarTitleText": "方向传感器"
-			}
-		},
-		{
-			"path": "platforms/app-plus/proximity/proximity",
-			"style": {
-				"navigationBarTitleText": "距离传感器"
-			}
-		},
-		{
-			"path": "platforms/app-plus/push/push",
-			"style": {
-				"navigationBarTitleText": "推送"
-			}
-		},
-		{
-			"path": "platforms/app-plus/shake/shake",
-			"style": {
-				"navigationBarTitleText": "摇一摇"
-			}
-		},
-		// #ifdef H5 || APP-PLUS
-		{
-			"path": "pages/about/about",
-			"style": {
-				"navigationBarTitleText": "关于"
-			}
-		},
-		// #endif
-		{
-			"path": "platforms/app-plus/feedback/feedback",
-			"style": {
-				"navigationBarTitleText": "问题反馈"
-			}
-		}
-	    ,{
-            "path" : "pages/component/audio/shopBag/PayPage/PayPage",
+            "path" : "pages/tabBar/component/modelPage/modelPage",
             "style" : {
-				"navigationBarTitleText": "支付详情"
+				"navigationBarTitleText": "3D模型"
 			}
         }
     ],
-	"subPackages": [{
+	"subPackages_del": [{
 			"root": "pages/extUI",
 			"pages": [{
 				"path": "badge/badge",

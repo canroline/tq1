@@ -38,38 +38,38 @@
 		},
 		onShow(){
 			console.log("HOME onShow！！！");
-			uni.getStorage({
-				key: 'AROpenid',  
-				success:  (res)=> {
-					console.log("获取本地保存的sysOpenid=", res.data);
-					if(res.data){
-						this.$store.state.sysOpenid = res.data
-						this.$store.dispatch("getBagList").then(  data=>{
-							console.log("获取购物车列表 getBagList=", data );
-							if(data=='0000') {
-								this.$store.state.orderCarList = data.orderCarList
-							}
-						}).catch( err=> {
-							uni.showToast({ title: err, icon:'none', duration: 2000 });
-						})
-					}else {
-						this.$store.dispatch("getUserOpenId").then( code =>{
-							this.getOpenId( code ) 
-						}).catch( err=>{ 
-							uni.showToast({ title: '初始化用户信息失败！', icon:'none', duration: 2000 });
-						})
-					}
-						
-				},
-				fail:  (res)=> {
-					this.$store.dispatch("getUserOpenId").then( code =>{
-						this.getOpenId( code ) 
-					}).catch( err=>{ 
-						uni.showToast({ title: '初始化用户信息失败！', icon:'none', duration: 2000 });
-					})
-				}
-					
-			});
+			// uni.getStorage({
+			// 	key: 'AROpenid',  
+			// 	success:  (res)=> {
+			// 		console.log("获取本地保存的sysOpenid=", res.data);
+			// 		if(res.data){
+			// 			this.$store.state.sysOpenid = res.data
+			// 			this.$store.dispatch("getBagList").then(  data=>{
+			// 				console.log("获取购物车列表 getBagList=", data );
+			// 				if(data=='0000') {
+			// 					this.$store.state.orderCarList = data.orderCarList
+			// 				}
+			// 			}).catch( err=> {
+			// 				uni.showToast({ title: err, icon:'none', duration: 2000 });
+			// 			})
+			// 		}else {
+			// 			this.$store.dispatch("getUserOpenId").then( code =>{
+			// 				this.getOpenId( code ) 
+			// 			}).catch( err=>{ 
+			// 				uni.showToast({ title: '初始化用户信息失败！', icon:'none', duration: 2000 });
+			// 			})
+			// 		}
+			// 			
+			// 	},
+			// 	fail:  (res)=> {
+			// 		this.$store.dispatch("getUserOpenId").then( code =>{
+			// 			this.getOpenId( code ) 
+			// 		}).catch( err=>{ 
+			// 			uni.showToast({ title: '初始化用户信息失败！', icon:'none', duration: 2000 });
+			// 		})
+			// 	}
+			// 		
+			// });
 			
 		},
 		onShareAppMessage() {  
@@ -79,42 +79,42 @@
 			}
 		},
 		onNavigationBarButtonTap(e) {
-			uni.navigateTo({
-				url: '/pages/about/about'
-			});
+			// uni.navigateTo({
+			// 	url: '/pages/about/about'
+			// });
 		},
 		methods: {
-			getOpenId(code) {
-				uni.request({
-					url: 'https://feiwuar.goho.co/pay/getOpenId',
-					data: {
-						code
-					},
-					method:"POST",
-					header: {
-						'content-type': 'application/x-www-form-urlencoded', 
-					},
-					success: (res) => {
-						console.log("getOpenId=", res.data );
-						this.$store.commit("setSysOpenid", res.data.openid )
-						console.log("系统自己的 sysOpenid=", this.$store.state.sysOpenid ); 
-						uni.setStorage({
-							key: 'AROpenid',
-							data: res.data.openid,
-							success: function () {
-								console.log('保存openid成功！');
-							}
-						});
-						
-						this.$store.dispatch("getBagList").then(  data=>{
-							console.log("获取购物车列表 getBagList=", data );
-						}).catch( err=> {
-							uni.showToast({ title: err, icon:'none', duration: 2000 });
-						})
-						
-					}
-				});
-			},
+			// getOpenId(code) {
+			// 	uni.request({
+			// 		url: 'https://feiwuar.goho.co/pay/getOpenId',
+			// 		data: {
+			// 			code
+			// 		},
+			// 		method:"POST",
+			// 		header: {
+			// 			'content-type': 'application/x-www-form-urlencoded', 
+			// 		},
+			// 		success: (res) => {
+			// 			console.log("getOpenId=", res.data );
+			// 			this.$store.commit("setSysOpenid", res.data.openid )
+			// 			console.log("系统自己的 sysOpenid=", this.$store.state.sysOpenid ); 
+			// 			uni.setStorage({
+			// 				key: 'AROpenid',
+			// 				data: res.data.openid,
+			// 				success: function () {
+			// 					console.log('保存openid成功！');
+			// 				}
+			// 			});
+			// 			
+			// 			this.$store.dispatch("getBagList").then(  data=>{
+			// 				console.log("获取购物车列表 getBagList=", data );
+			// 			}).catch( err=> {
+			// 				uni.showToast({ title: err, icon:'none', duration: 2000 });
+			// 			})
+			// 			
+			// 		}
+			// 	});
+			// },
 			triggerCollapse(e) {
 				if (!this.lists[e].pages) {
 					this.goDetailPage(this.lists[e].url);
@@ -134,6 +134,9 @@
 					icon:'none', 
 					duration: 3000 ,
 				});
+				// uni.navigateTo({
+				// 	url: "/pages/tabBar/component/modelPage/modelPage"
+				// })
 			},
 			goDetailPage(e) {
 				if (typeof e === 'string') {

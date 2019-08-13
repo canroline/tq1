@@ -34,16 +34,18 @@
 		},
 		onShow: function() {
 			console.log('App Show')
-			this.initIP()
+			uni.showLoading({
+				title:'程序初始化中...'
+			})
+			// this.initIP()
+			this.InitOpenId()
+			// uni.reLaunch({ url: '/pages/tabBar/component/component'});
 		},
 		onHide: function() {
 			console.log('App Hide')
 		},
 		methods: {
 			initIP(){
-				uni.showLoading({
-					title:'程序初始化中...'
-				})
 				uni.request({
 					url: 'http://pv.sohu.com/cityjson?ie=utf-8',
 					dataType: "script", 
@@ -56,14 +58,71 @@
 						console.log("获取IP=", res )
 						console.log( "data=", res.data,  res.data.split(" = ")[1] )
 						this.$store.state.IPData = JSON.parse( res.data.split(" = ")[1].replace(";","") )
-						
-						console.log( "IPData=", this.$store.state.IPData ) 
+						console.log( "APP IPData=", this.$store.state.IPData ) 
 					},
 					fail: res =>{
 						uni.hideLoading()
 					}
 				})
-			}
+			},
+			
+			InitOpenId() {
+				uni.getStorage({
+					key: 'AROpenid',  
+					success:  (res)=> {
+						console.log("APP 获取本地保存的sysOpenid=", res.data);
+						uni.hideLoading()
+						if(res.data){
+							this.$store.state.sysOpenid = res.data
+						}else {
+							this.getOpenId()
+						}
+					},
+					fail:  (res)=> {
+						this.getOpenId()
+						uni.hideLoading()
+					}
+						
+				});
+			},
+			
+			getOpenId() {
+				this.$store.dispatch("getUserOpenId").then( code =>{
+					this.getSysOpenId( code ) 
+				}).catch( err=>{ 
+					uni.showToast({ title: '初始化用户信息失败！', icon:'none', duration: 2000 })
+				})
+			},
+			
+			getSysOpenId(code) {
+				uni.request({
+					url: 'https://feiwuar.goho.co/pay/getOpenId',
+					data: { code },
+					method:"POST",
+					header: {
+						'content-type': 'application/x-www-form-urlencoded', 
+					},
+					success: (res) => {
+						console.log("getSysOpenId=", res.data );
+						this.$store.commit("setSysOpenid", res.data.openid )
+						console.log("系统自己的 sysOpenid=", this.$store.state.sysOpenid ); 
+						uni.setStorage({
+							key: 'AROpenid',
+							data: res.data.openid,
+							success: function () {
+								console.log('保存openid成功！');
+							}
+						});
+						
+						// this.$store.dispatch("getBagList").then(  data=>{
+						// 	console.log("获取购物车列表 getBagList=", data );
+						// }).catch( err=> {
+						// 	uni.showToast({ title: err, icon:'none', duration: 2000 });
+						// })
+					}
+				})
+			},
+			
 		},
 	}
 </script>
