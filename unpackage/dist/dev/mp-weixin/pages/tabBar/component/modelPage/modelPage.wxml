@@ -1,1 +1,1 @@
-<view></view>
+<view><web-view webview-styles="{{webviewStyles}}" src="https://feiwuar.goho.co/uploadFiles/threejs/box-spin.html"></web-view></view>
