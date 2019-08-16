@@ -4,7 +4,7 @@
 		 <!-- https://threejs.org/examples/#webgl_loader_obj2 -->
 		 <!-- https://uniapp.dcloud.io/static/web-view.html -->
 		 <web-view :webview-styles="webviewStyles" 
-		 src="https://feiwuar.goho.co/uploadFiles/threejs/box-spin.html"></web-view>
+		 src="https://feiwuar.goho.co/uploadFiles/threejs/jordan-click-to-spin.html"></web-view>
 	</view>
 </template>  
 
@@ -17,7 +17,7 @@
 	// const ModelObj1 = require('vue-3d-model')
 	export default {
 		components: {
-			// ModelObj
+			// ModelObj    
 		},
 		data() {
 			return {

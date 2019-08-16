@@ -39,6 +39,12 @@
 				"navigationBarTitleText": "3D模型"
 			}
         }
+        ,{
+            "path" : "pages/tabBar/component/scanModel/scanModel",
+            "style" : {
+            	"navigationBarTitleText": "AR冷链物流车"
+            }
+        }
     ],
 	"subPackages_del": [{
 			"root": "pages/extUI",

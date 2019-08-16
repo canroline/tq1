@@ -5,7 +5,8 @@
     "pages/component/audio/shopBag/shopBag",
     "pages/component/audio/shopBag/PayPage/PayPage",
     "pages/component/audio/goodDetail/goodDetail",
-    "pages/tabBar/component/modelPage/modelPage"
+    "pages/tabBar/component/modelPage/modelPage",
+    "pages/tabBar/component/scanModel/scanModel"
   ],
   "subPackages": [],
   "window": {
@@ -25,6 +26,5 @@
     "page-head": "/components/page-head",
     "page-foot": "/components/page-foot",
     "u-link": "/components/uLink"
-  },
-  "sitemapLocation": "sitemap70.json"
+  }
 }

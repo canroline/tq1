@@ -104,7 +104,7 @@
 				// 	duration: 3000 ,
 				// });
 				uni.navigateTo({
-					url: "/pages/tabBar/component/modelPage/modelPage"
+					url:  "/pages/tabBar/component/scanModel/scanModel"
 				})
 			},
 			goDetailPage(e) {
