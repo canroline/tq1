@@ -52,7 +52,8 @@ const store = new Vuex.Store({
 		sysOpenid: null, //系统openid
 		orderCarList: [], //购物车列表
 		IPData: {cip:''}, //IP
-		Add,Minus,Multiply,Division 
+		Add,Minus,Multiply,Division,
+		host_url: 'https://fwgepay.cn' 
 	},
 	mutations: {
 		login(state, provider) {
@@ -102,7 +103,7 @@ const store = new Vuex.Store({
 				return await new Promise((resolve, reject) => {
 					let openid = state.sysOpenid
 					uni.request({
-						url: 'https://feiwuar.goho.co/pay/queryOrderCar',
+						url: state.host_url + '/pay/queryOrderCar',
 						data: {
 							openid
 						},
@@ -136,7 +137,7 @@ const store = new Vuex.Store({
 			
 				return await new Promise((resolve, reject) => {
 					uni.request({
-						url: 'https://feiwuar.goho.co/pay/addOrderCar', 
+						url: state.host_url + '/pay/addOrderCar', 
 						data,
 						method:"POST", 
 						header: {
@@ -191,7 +192,7 @@ const store = new Vuex.Store({
 				console.log(" allList =", allList )
 				return await new Promise((resolve, reject) => {
 					uni.request({
-						url: 'https://feiwuar.goho.co/pay/wxArPayOrder',
+						url: state.host_url + '/pay/wxArPayOrder',
 						data: {
 							openid, 
 							price, 
@@ -219,7 +220,7 @@ const store = new Vuex.Store({
 			console.log("释放库存订单号=", data )
 			return await new Promise((resolve, reject) => {
 				uni.request({
-					url: 'https://feiwuar.goho.co/pay/updateStock',
+					url: state.host_url + '/pay/updateStock',
 					data: {
 						order_no: data
 					},

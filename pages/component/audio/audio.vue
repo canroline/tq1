@@ -73,7 +73,8 @@
 				},
 				audioAction: {
 					method: 'pause'
-				}
+				},
+				host_url: this.$store.state.host_url
 			}
 		},
 		methods: {
@@ -99,7 +100,7 @@
 						console.log('goods_no：' + goods_no );
 						
 						uni.request({
-							url: 'https://feiwuar.goho.co/pay/queryGoodsInfos',
+							url: this.host_url + '/pay/queryGoodsInfos',
 							data: {
 								goods_no: goods_no
 							},

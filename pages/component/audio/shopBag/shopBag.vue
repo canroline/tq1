@@ -126,6 +126,7 @@
 				wxPayData: {},
 				no_bag_data: false, //背包没数据
 				inited: 0,
+				host_url: this.$store.state.host_url
 			}
 		},
 		computed: {
@@ -282,7 +283,7 @@
 				
 			
 				uni.request({
-					url: 'https://feiwuar.goho.co/pay/wxArPayOrder',
+					url: this.host_url + '/pay/wxArPayOrder',
 					data: {
 						openid, 
 						price, 
@@ -361,7 +362,7 @@
 						console.log('goods_no：' + goods_no );
 						
 						uni.request({
-							url: 'https://feiwuar.goho.co/pay/queryGoodsInfos',
+							url: this.host_url + '/pay/queryGoodsInfos',
 							data: {
 								goods_no: goods_no
 							}, 

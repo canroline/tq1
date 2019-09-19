@@ -1,1 +1,1 @@
-<view><web-view webview-styles="{{webviewStyles}}" src="https://feiwuar.goho.co/uploadFiles/threejs/jordan-click-to-spin.html"></web-view></view>
+<view><web-view webview-styles="{{webviewStyles}}" src="https://feiwuar.goho.co/uploadFiles/threejs/examples/webgl_loader_fbx_nurbs.html"></web-view></view>

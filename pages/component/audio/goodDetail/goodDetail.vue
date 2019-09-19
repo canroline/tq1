@@ -1,11 +1,11 @@
 <template>
 	<view style="background: #EFEFF3;height: 100%;">
-		<view v-if="goodInfo.goods_title" style="height: 370px;background: #fff;">
-			<uni-swiper-dot :current="current" field="content" mode="indexes">
-				<swiper style="height: 290px;">
+		<view v-if="goodInfo.goods_title" style="height: 500px;background: #fff;">
+			<uni-swiper-dot :info="goodInfo.goods_img_Arr" :current="current" field="content" mode="indexes">
+				<swiper class="swiper-box" style="height: 420px;" @change="change">
 					<swiper-item v-for="(item,index) in goodInfo.goods_img_Arr" :key="index">
 						<view class="swiper-item">
-							<image :src="item" style="width:100%;height: 280px;"></image>
+							<image :src="item" style="width:100%;height: 385px;"></image>
 						</view>
 					</swiper-item>
 				</swiper>
@@ -31,10 +31,25 @@
 			-------------商品介绍---------------
 		</div>
 		
-		<view class="uni-flex uni-column" style="background: #fff;align-items: center;" >
-			<image v-for="item in goodInfo.img_list_Arr" :key="item" :src="item"
+		<view style="background: #fff;align-items: center;padding: 10px;height: 460px;" >
+			<!-- <image v-for="item in goodInfo.img_list_Arr" :key="item" :src="item"
 			 style="width: 100%;height: 300px;">
-			</image>
+			</image> -->
+			
+			<!-- goodInfo.img_list_Arr=={{ goodInfo.img_list_Arr }} -->
+			
+			<uni-swiper-dot :info="goodInfo.img_list_Arr" :current="d_current" 
+				field="content" mode="indexes">
+				<swiper class="swiper-box"  style="height: 420px;" @change="change_d">
+					<swiper-item v-for="(d_item) in goodInfo.img_list_Arr" :key="d_item">
+						<view class="swiper-item">
+							<image :src="d_item" style="width:100%;height: 385px;"></image>
+						</view>
+					</swiper-item>
+				</swiper>
+			</uni-swiper-dot>
+			
+			
 		</view>
 		
 		<view class="uni-flex" 
@@ -73,18 +88,7 @@
 			</view>
 		</view>
 		
-		
-		
-		<!-- <uni-popup :show="isShowModel" ref="popup" type="bottom"
-			mode="fixed"
-			style="height: 500px; width: 100%;">
-			
-			<view style="height: 100%; background: #fff;width: 100%;">
-				弹出层示例123213
-				<button @click="closePopup">关闭弹出层</button>     
-			</view>
-			
-		</uni-popup> -->
+	
 		
 		<uni-popup :show="isShowModel" position="bottom" @hidePopup="closePopup('')">
 			<view style="display: block;height: 330px;width: 100%;">
@@ -150,6 +154,7 @@
 				goodInfo: {},
 				modelInfo: [],
 				current: 0,
+				d_current: 0,
 				bagCount: this.$store.state.orderCarList.length || 0, //购物车种类
 				buyCount: 1,
 				isShowModel: false, 
@@ -175,6 +180,13 @@
 			})
 		},
 		methods: {
+			change(e) {
+				this.current = e.detail.current
+			},
+			change_d(e) {
+				console.log("chage d =", e)
+				this.d_current = e.detail.current
+			},
 			changeNum( val ) {
 				if(val<1) return
 				this.flag = val>= this.buyCount ? 1 : 2

@@ -4,7 +4,7 @@
 		 <!-- https://threejs.org/examples/#webgl_loader_obj2 -->
 		 <!-- https://uniapp.dcloud.io/static/web-view.html -->
 		 <web-view :webview-styles="webviewStyles" 
-		 src="https://feiwuar.goho.co/uploadFiles/threejs/jordan-click-to-spin.html"></web-view>
+		 src="https://fwgepay.cn/uploadFiles/threejs/examples/webgl_loader_fbx_nurbs.html"></web-view>
 	</view>
 </template>  
 

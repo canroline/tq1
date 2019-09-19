@@ -95,8 +95,9 @@
 			},
 			
 			getSysOpenId(code) {
+				let host_url = this.$store.state.host_url
 				uni.request({
-					url: 'https://feiwuar.goho.co/pay/getOpenId',
+					url: host_url + '/pay/getOpenId',
 					data: { code },
 					method:"POST",
 					header: {
