@@ -1,8 +1,8 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],[
 /* 0 */
-/*!*************************!*\
-  !*** E:/tq/tq1/main.js ***!
-  \*************************/
+/*!************************************!*\
+  !*** /Users/t/Desktop/tq1/main.js ***!
+  \************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -775,7 +775,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -6979,7 +6979,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7000,14 +7000,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7083,7 +7083,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -7490,9 +7490,9 @@ module.exports = g;
 
 /***/ }),
 /* 4 */
-/*!****************************!*\
-  !*** E:/tq/tq1/pages.json ***!
-  \****************************/
+/*!***************************************!*\
+  !*** /Users/t/Desktop/tq1/pages.json ***!
+  \***************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7612,9 +7612,9 @@ function normalizeComponent (
 
 /***/ }),
 /* 11 */
-/*!********************************!*\
-  !*** E:/tq/tq1/store/index.js ***!
-  \********************************/
+/*!*******************************************!*\
+  !*** /Users/t/Desktop/tq1/store/index.js ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7673,7 +7673,8 @@ var store = new _vuex.default.Store({
     sysOpenid: null, //系统openid
     orderCarList: [], //购物车列表
     IPData: { cip: '' }, //IP
-    Add: Add, Minus: Minus, Multiply: Multiply, Division: Division },
+    Add: Add, Minus: Minus, Multiply: Multiply, Division: Division,
+    host_url: 'https://fwgepay.cn' },
 
   mutations: {
     login: function login(state, provider) {
@@ -7723,7 +7724,7 @@ var store = new _vuex.default.Store({
                   new Promise(function (resolve, reject) {
                     var openid = state.sysOpenid;
                     uni.request({
-                      url: 'https://feiwuar.goho.co/pay/queryOrderCar',
+                      url: state.host_url + '/pay/queryOrderCar',
                       data: {
                         openid: openid },
 
@@ -7757,7 +7758,7 @@ var store = new _vuex.default.Store({
 
                   new Promise(function (resolve, reject) {
                     uni.request({
-                      url: 'https://feiwuar.goho.co/pay/addOrderCar',
+                      url: state.host_url + '/pay/addOrderCar',
                       data: data,
                       method: "POST",
                       header: {
@@ -7812,7 +7813,7 @@ var store = new _vuex.default.Store({
                 console.log(" allList =", allList);_context4.next = 13;return (
                   new Promise(function (resolve, reject) {
                     uni.request({
-                      url: 'https://feiwuar.goho.co/pay/wxArPayOrder',
+                      url: state.host_url + '/pay/wxArPayOrder',
                       data: {
                         openid: openid,
                         price: price,
@@ -7840,7 +7841,7 @@ var store = new _vuex.default.Store({
                 console.log("释放库存订单号=", data);_context5.next = 4;return (
                   new Promise(function (resolve, reject) {
                     uni.request({
-                      url: 'https://feiwuar.goho.co/pay/updateStock',
+                      url: state.host_url + '/pay/updateStock',
                       data: {
                         order_no: data },
 
@@ -9602,9 +9603,9 @@ var index_esm = {
 
 /***/ }),
 /* 16 */
-/*!***************************************************************************!*\
-  !*** E:/tq/tq1/main.js?{"page":"pages%2FtabBar%2Fcomponent%2Fcomponent"} ***!
-  \***************************************************************************/
+/*!**************************************************************************************!*\
+  !*** /Users/t/Desktop/tq1/main.js?{"page":"pages%2FtabBar%2Fcomponent%2Fcomponent"} ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9625,9 +9626,9 @@ createPage(_component.default);
 /* 22 */,
 /* 23 */,
 /* 24 */
-/*!**********************************************************************!*\
-  !*** E:/tq/tq1/main.js?{"page":"pages%2Fcomponent%2Faudio%2Faudio"} ***!
-  \**********************************************************************/
+/*!*********************************************************************************!*\
+  !*** /Users/t/Desktop/tq1/main.js?{"page":"pages%2Fcomponent%2Faudio%2Faudio"} ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9646,9 +9647,9 @@ createPage(_audio.default);
 /* 28 */,
 /* 29 */,
 /* 30 */
-/*!**********************************************************************************!*\
-  !*** E:/tq/tq1/main.js?{"page":"pages%2Fcomponent%2Faudio%2FshopBag%2FshopBag"} ***!
-  \**********************************************************************************/
+/*!*********************************************************************************************!*\
+  !*** /Users/t/Desktop/tq1/main.js?{"page":"pages%2Fcomponent%2Faudio%2FshopBag%2FshopBag"} ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9667,9 +9668,9 @@ createPage(_shopBag.default);
 /* 34 */,
 /* 35 */,
 /* 36 */
-/*!********************************************************************************************!*\
-  !*** E:/tq/tq1/main.js?{"page":"pages%2Fcomponent%2Faudio%2FshopBag%2FPayPage%2FPayPage"} ***!
-  \********************************************************************************************/
+/*!*******************************************************************************************************!*\
+  !*** /Users/t/Desktop/tq1/main.js?{"page":"pages%2Fcomponent%2Faudio%2FshopBag%2FPayPage%2FPayPage"} ***!
+  \*******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9688,9 +9689,9 @@ createPage(_PayPage.default);
 /* 40 */,
 /* 41 */,
 /* 42 */
-/*!****************************************************************************************!*\
-  !*** E:/tq/tq1/main.js?{"page":"pages%2Fcomponent%2Faudio%2FgoodDetail%2FgoodDetail"} ***!
-  \****************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** /Users/t/Desktop/tq1/main.js?{"page":"pages%2Fcomponent%2Faudio%2FgoodDetail%2FgoodDetail"} ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9711,9 +9712,9 @@ createPage(_goodDetail.default);
 /* 48 */,
 /* 49 */,
 /* 50 */
-/*!***************************************************************************************!*\
-  !*** E:/tq/tq1/main.js?{"page":"pages%2FtabBar%2Fcomponent%2FmodelPage%2FmodelPage"} ***!
-  \***************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** /Users/t/Desktop/tq1/main.js?{"page":"pages%2FtabBar%2Fcomponent%2FmodelPage%2FmodelPage"} ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9732,9 +9733,9 @@ createPage(_modelPage.default);
 /* 54 */,
 /* 55 */,
 /* 56 */
-/*!***************************************************************************************!*\
-  !*** E:/tq/tq1/main.js?{"page":"pages%2FtabBar%2Fcomponent%2FscanModel%2FscanModel"} ***!
-  \***************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** /Users/t/Desktop/tq1/main.js?{"page":"pages%2FtabBar%2Fcomponent%2FscanModel%2FscanModel"} ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

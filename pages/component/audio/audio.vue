@@ -85,7 +85,7 @@
 				
 			},
 			GoScan() {
-				
+				let host_url = this.host_url
 				// 允许从相机和相册扫码
 				uni.scanCode({
 					success: function (res) {
@@ -100,9 +100,9 @@
 						console.log('goods_no：' + goods_no );
 						
 						uni.request({
-							url: this.host_url + '/pay/queryGoodsInfos',
+							url: host_url + '/pay/queryGoodsInfos',
 							data: {
-								goods_no: goods_no
+								goods_no: goods_no 
 							},
 							method:"GET",
 							header: {

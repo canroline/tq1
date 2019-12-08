@@ -1,11 +1,21 @@
 <template>
 	<view style="background: #EFEFF3;height: 100%;">
+		<!-- <scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" 
+                @scroll="scroll"> -->
 		<view v-if="goodInfo.goods_title" style="height: 500px;background: #fff;">
 			<uni-swiper-dot :info="goodInfo.goods_img_Arr" :current="current" field="content" mode="indexes">
 				<swiper class="swiper-box" style="height: 420px;" @change="change">
 					<swiper-item v-for="(item,index) in goodInfo.goods_img_Arr" :key="index">
 						<view class="swiper-item">
-							<image :src="item" style="width:100%;height: 385px;"></image>
+							
+							<video v-if="item.indexOf('.mp4')>-1" 
+								id="myVideo" 
+								style="width:100%;height: 385px;"
+								:src="item"
+								@error="videoErrorCallback" 
+								controls>
+							</video>
+							<image v-else :src="item" style="width:100%;height: 385px;"></image>
 						</view>
 					</swiper-item>
 				</swiper>
@@ -27,30 +37,70 @@
 			</view>
 		</view>
 		
-		<div style="color: #999;text-align: center;width: 100%;font-size: 15px;padding: 10px 0px;"> 
-			-------------商品介绍---------------
-		</div>
+		<view class="uni-flex uni-row" style="width: 100%;padding: 5px;background: #fff;margin-top: 10px;">
+			<view class="flex-item " style="flex: 1;text-align: center;padding: 5px 0px;"
+				@click="activeTab=1">
+				<span>详情</span>
+				<div v-if="activeTab==1" style="position: relative;left: 40%; width:20%; border: 1px solid #CE3C39;"></div>
+			</view>
+			<view class="flex-item " style="flex: 1;text-align: center;padding: 5px 0px;"
+				@click="getTjGoods">
+				推荐
+				<div v-if="activeTab==2" style="position: relative;left: 40%; width:20%; border: 1px solid #CE3C39;"></div>
+			</view>
+		</view>
 		
-		<view style="background: #fff;align-items: center;padding: 10px;height: 460px;" >
-			<!-- <image v-for="item in goodInfo.img_list_Arr" :key="item" :src="item"
-			 style="width: 100%;height: 300px;">
-			</image> -->
+		<view v-if="activeTab==1">
+			<div style="color: #999;text-align: center;width: 100%;font-size: 13px;padding: 10px 0px;"> 
+				-------------商品介绍-------------
+			</div>
 			
-			<!-- goodInfo.img_list_Arr=={{ goodInfo.img_list_Arr }} -->
-			
-			<uni-swiper-dot :info="goodInfo.img_list_Arr" :current="d_current" 
-				field="content" mode="indexes">
-				<swiper class="swiper-box"  style="height: 420px;" @change="change_d">
-					<swiper-item v-for="(d_item) in goodInfo.img_list_Arr" :key="d_item">
-						<view class="swiper-item">
-							<image :src="d_item" style="width:100%;height: 385px;"></image>
-						</view>
-					</swiper-item>
-				</swiper>
-			</uni-swiper-dot>
-			
+			<view style="background: #fff;align-items: center;padding: 10px;height: 460px;" >
+				<!-- <image v-for="item in goodInfo.img_list_Arr" :key="item" :src="item"
+				 style="width: 100%;height: 300px;">
+				</image> -->
+				
+				<!-- goodInfo.img_list_Arr=={{ goodInfo.img_list_Arr }} -->
+				
+				<uni-swiper-dot :info="goodInfo.img_list_Arr" :current="d_current" 
+					field="content" mode="indexes">
+					<swiper class="swiper-box"  style="height: 420px;" @change="change_d">
+						<swiper-item v-for="(d_item) in goodInfo.img_list_Arr" :key="d_item">
+							<view class="swiper-item">
+								<image :src="d_item" style="width:100%;height: 385px;"></image>
+							</view>
+						</swiper-item>
+					</swiper>
+				</uni-swiper-dot>
+				
+				
+			</view>
 			
 		</view>
+		
+		<view v-if="activeTab==2">
+			<div style="color: #999;text-align: center;width: 100%;font-size: 13px;padding: 10px 0px;"> 
+				-------------看了又看-------------
+			</div>
+			<view style="background: #fff;align-items: center;padding: 10px;height: 460px;" >
+				<template v-for="line in TjData">
+					<view class="uni-flex uni-row"  >
+						<template v-for="item in line">
+							<view @click="getGoodDetailInfo(item.goods_no)"
+								style="flex: 1;height: 200px;margin-top: 10px;padding: 2px;" >
+								<image :src="item.small_img" style="width: 100%; height: 140px;"></image>
+								<div> {{item.goods_title}} </div>
+								<div style="color: #DC7004;"> ¥ {{item.goods_price}}</div>
+							</view>
+						</template>
+					</view>
+				</template>
+				
+				
+			</view>
+		</view>
+		
+		
 		
 		<view class="uni-flex" 
 			style="width: 100%;height: 50px; background: #F2F2F2; align-items: center;
@@ -135,6 +185,8 @@
 				<!-- <view  @click="closePopup('')">取消分享</view> -->
 			</view>
 		</uni-popup>
+	
+	<!-- </scroll-view> -->
 		
 	</view>
 </template>
@@ -160,6 +212,12 @@
 				isShowModel: false, 
 				// model_checked: null,
 				cur_handle:-1, // 【0】加入购物车 【2】立即购买
+				activeTab: 1,
+				TjData:[],//推荐数据
+				// scrollTop: 0,
+				// old: {
+				// 	scrollTop: 0
+				// }
 			}
 		},
 		onLoad(data) {
@@ -168,18 +226,22 @@
 			let goodInfo = JSON.parse(decodeURIComponent(data.goodInfo))
             console.log("onLoad modelInfo, goodInfo=", this.modelInfo , goodInfo )
 			this.goodInfo = goodInfo
-			this.goodInfo.img_list_Arr = goodInfo.img_list.split(",")
-			this.goodInfo.goods_img_Arr = goodInfo.goods_img.split(",")
-			// this.model_checked =  this.modelInfo[0].goods_model  
-			
+			// this.goodInfo.img_list_Arr = goodInfo.img_list.split(",")
+			// this.goodInfo.goods_img_Arr = goodInfo.goods_img.split(",")
+			this.initPage()
         },
 		onShow() {
 			uni.$on('updateBag', (data)=>{
-				console.log("on updateBag>>>")
 				this.bagCount = this.$store.state.orderCarList.length || 0
 			})
 		},
 		methods: {
+			initPage(){
+				this.goodInfo.img_list_Arr = this.goodInfo.img_list.split(",")
+				this.goodInfo.goods_img_Arr = this.goodInfo.goods_img.split(",")
+				this.current = 0
+				this.d_current = 0
+			},
 			change(e) {
 				this.current = e.detail.current
 			},
@@ -221,6 +283,9 @@
 				this.cur_handle = handleIndex
 				this.buyCount = 1
 				this.$refs.numBox.set
+			},
+			videoErrorCallback(){
+				uni.showToast({ title: '视频加载出错！', icon:'none', duration: 2000 });
 			},
 			addBag() {
 				if( this.cur_handle==1 ){
@@ -274,6 +339,90 @@
 					
 				})
 			},
+			// scroll: function(e) {
+			// 	console.log(e)
+			// 	this.old.scrollTop = e.detail.scrollTop
+			// },
+			// goTop: function(e) {
+			// 	this.scrollTop = this.old.scrollTop
+			// 	this.$nextTick(function() {
+			// 		this.scrollTop = 0
+			// 	});
+			// 	uni.showToast({
+			// 		icon:"none",
+			// 		title:"纵向滚动 scrollTop 值已被修改为 0"
+			// 	})
+			// },
+			getGoodDetailInfo(goods_no){
+				this.activeTab = 1
+				// this.goTop()
+				let host_url = this.$store.state.host_url
+				uni.request({
+					url: host_url + '/pay/queryGoodsInfos',
+					data: {
+						goods_no: goods_no 
+					},
+					method:"GET",
+					header: {
+						'content-type': 'application/x-www-form-urlencoded', 
+					},
+					success: (res) => {
+						console.log("queryGoodsInfos=", res.data);
+						if( res.data.code=="0000" ){
+							this.modelInfo = res.data.modelList
+							this.goodInfo  = res.data.goodinfo
+							this.initPage()
+							// var goodInfo = encodeURIComponent( JSON.stringify(res.data.goodinfo) )
+							// var modelInfo= encodeURIComponent( JSON.stringify(res.data.modelList) )
+							// uni.navigateTo({
+							// 	url: '/pages/component/audio/goodDetail/goodDetail?goodInfo=' + goodInfo + '&modelInfo=' + modelInfo 
+							// })
+						} else {
+							uni.showToast({ title: '加载商品详细信息失败！', icon:'none', duration: 2000 });
+						}
+					}
+				});
+			},
+			getTjGoods() {
+				this.activeTab=2
+				let host_url = this.$store.state.host_url
+				uni.request({
+					url: host_url + '/pay/queryTjGoodInfos',
+					data: {
+						goods_no: this.goodInfo.goods_no,
+						good_type: this.goodInfo.good_type
+					},
+					method:"GET",
+					header: {
+						'content-type': 'application/x-www-form-urlencoded', 
+					},
+					success: (res) => {
+						console.log("queryTjGoodInfos=", res.data);
+						if( res.data.code=="0000" ){
+							let goodinfos = res.data.goodinfos
+							this.TjData = []
+							for(let i=0; i<goodinfos.length;){
+								let temp = []
+								temp.push( goodinfos[i] )
+								if( goodinfos[i+1] ){
+									temp.push( goodinfos[i+1] )
+								}
+								this.TjData.push(temp)
+								i = i + 2
+							}
+							console.log("TjData=", this.TjData);
+							
+							// var goodInfo = encodeURIComponent( JSON.stringify(res.data.goodinfo) )
+							// var modelInfo= encodeURIComponent( JSON.stringify(res.data.modelList) )
+							// uni.navigateTo({
+							// 	url: '/pages/component/audio/goodDetail/goodDetail?goodInfo=' + goodInfo + '&modelInfo=' + modelInfo 
+							// })
+						} else {
+							uni.showToast({ title: '获取推荐失败！', icon:'none', duration: 2000 });
+						}
+					}
+				});
+			},
 			GoWXPay() {
 				uni.requestPayment({
 					provider: 'wxpay',
@@ -319,6 +468,10 @@
 	.uni-mask{
 		 z-index: 1;
 		background: rgba(0, 0, 0, 0.6);
+	}
+	
+	.active-tab{
+		color: red;
 	}
 
 </style>
